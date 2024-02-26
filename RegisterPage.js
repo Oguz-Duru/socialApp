@@ -18,15 +18,16 @@ const SignIn = () => {
         console.log(email)
         console.log(password)
     }
-    {/*
 
+    {/*
     const submitRegister = async () => {
         createUserWithEmailAndPassword(auth, email, password).then((user) => {
             console.log('kayıt oldunuz.')
             navigation.navigate('SignIn')
         })
     }
-*/}
+    */}
+
     return (
 
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 50, }}>
@@ -80,4 +81,5 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     }
 })
+
 export default SignIn;

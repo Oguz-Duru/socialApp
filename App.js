@@ -12,14 +12,18 @@ import SignIn from './RegisterPage';
 import Profile from './Profile';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
+
 const Stack = createStackNavigator();
 
-
-
 const App = () => {
-  return (
+  return ( //hala aynı dur gireyim autha gitti ama  görüorum bkle de bakayım 
     <NavigationContainer>
-      <Stack.Navigator >
+      <Stack.Navigator initialRouteName='RegisterIn'>
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="RegisterPage"
           component={SignIn}
@@ -42,11 +46,8 @@ const App = () => {
             headerShown: false,
           }}
         />
-        <Stack.Screen
-          name="Profile"
-          component={Profile}
-          options={{ headerShown: false }}
-        />
+
+
 
       </Stack.Navigator>
     </NavigationContainer>

@@ -8,7 +8,7 @@ const BottomMenu = () => {
     const navigation = useNavigation();
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.tab}>
+            <TouchableOpacity style={styles.tab} onPress={()=>navigation.navigate('LoginPage')}>
                 <FontAwesomeIcon name="home" size={25} />
             </TouchableOpacity>
 
@@ -16,7 +16,7 @@ const BottomMenu = () => {
                 <FontAwesomeIcon name="compass" size={30} />
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.tab}>
+            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('VeriEkle')}>
                 <FontAwesomeIcon name="plus" size={25} />
             </TouchableOpacity>
 

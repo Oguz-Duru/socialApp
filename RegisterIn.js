@@ -4,29 +4,27 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'fire
 import { TextInput, TouchableOpacity, View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import { StyleSheet } from 'react-native';
+import { getFirestore, collection, query, getDoc, doc, setDoc, addDoc, add, updateDoc, onSnapshot } from "firebase/firestore";
 
 const SignUp = () => {
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
     const [name, setName] = useState(null)
     const [username, setUsername] = useState(null)
-    {/* */ }
 
     const navigation = useNavigation()
-    {/* const submitLogin = async () => {
-        signInWithEmailAndPassword(auth, email, password).then((users) => {
-            console.log("giriş yaptınız")
-            navigation.navigate('LoginPage')
-        })
-        console.log(email)
-        console.log(password)
-    }
-    */}
 
     const submitRegister = async () => {
         createUserWithEmailAndPassword(auth, email, password).then((user) => {
-            console.log('kayıt oldunuz.')
-            navigation.navigate('SignIn')
+            setDoc(doc(db, 'users', email), {
+                name: name,
+                username: username,
+                password: password, 
+            })
+            if (!user === null) {
+                alert('kayıt oldunuz')
+                navigation.navigate('RegisterPage')
+            }
         })
     }
 
@@ -64,7 +62,6 @@ const SignUp = () => {
             <TouchableOpacity onPress={() => navigation.navigate('RegisterPage')}>
                 <Text>Giriş yap</Text>
             </TouchableOpacity>
-
         </View>
     )
 }

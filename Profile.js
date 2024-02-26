@@ -1,10 +1,43 @@
 import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import BottomMenu from "./component/Bottom";
-
+import { useEffect, useState } from "react";
+import { getDoc, doc } from 'firebase/firestore';
+import { db, auth } from './firebase';
+import { useNavigation } from '@react-navigation/native';
 
 
 const Profile = () => {
+    const navigation = useNavigation();
+    const [username, setUsername] = useState('');
+
+    useEffect(() => {
+        // Kullanıcının giriş yapmış olup olmadığını kontrol et
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                // Kullanıcı giriş yapmışsa, Firestore'dan kullanıcı verilerini al
+                const userDoc = doc(db, 'users', user.email);
+
+                try {
+                    const userSnapshot = await getDoc(userDoc);
+                    if (userSnapshot.exists()) {
+                        // Eğer belge varsa, kullanıcı adını güncelle
+                        setUsername(userSnapshot.data().username);
+                    }
+                } catch (error) {
+                    console.error('Kullanıcı verileri alınırken hata:', error);
+                }
+            } else {
+                // Kullanıcı giriş yapmamışsa, giriş sayfasına yönlendir
+                navigation.navigate('LoginPage');
+            }
+        });
+
+        // Bileşen sonlandığında aboneliği kapat
+        return () => unsubscribe();
+    }, [navigation]);
+
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
@@ -17,10 +50,15 @@ const Profile = () => {
                                 position: 'absolute', right: 10, paddingLeft: 11, paddingTop: 11, width: 30, height: 30, top: 30, borderRadius: 100,
                                 backgroundColor: '#eff396', borderWidth: 2, borderColor: 'white'
                             }} />
-                            <Text style={{ fontWeight: 'bold', top: -32 }}>Natalie Prasdjoa</Text>
+                            <Text style={{ fontWeight: 'bold', top: -32 }}>
+                                {username}
+                            </Text>
                             <Text style={{ top: -32, color: '#a9a9a9' }}>natalie.e</Text>
                         </View>
 
+                        <TouchableOpacity style={styles.profileButton}>
+                            <Text style={{ fontWeight: 'bold', color: 'white' }}>Düzenle</Text>
+                        </TouchableOpacity>
                         <TouchableOpacity style={styles.profileButton}>
                             <Text style={{ fontWeight: 'bold', color: 'white' }}>Takip Et</Text>
                         </TouchableOpacity>

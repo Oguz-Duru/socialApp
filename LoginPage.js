@@ -159,7 +159,6 @@ const LoginPage = () => {
             </ScrollView>
             {/**Kaydırmalı Post */}
 
-
             <Bottom />
 
         </SafeAreaView>
